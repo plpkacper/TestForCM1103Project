@@ -49,6 +49,9 @@ public class ProjectTest {
         showArray(nS);
         int[][] iNS = nibbleSub(nS, reversed);
         showArray(iNS);
+        
+        outputMap(fillSubTable(true));
+        outputMap(fillSubTable(false));
         */
         encryptWord();
     }
@@ -78,14 +81,34 @@ public class ProjectTest {
         }
     }
     
-    public static HashMap<Integer, Integer> reverseHashMap(HashMap<Integer, Integer> map) {
-        HashMap<Integer, Integer> reversed = new HashMap<>();
+    public static HashMap<Integer, Integer> fillSubTable(boolean isInverse) {
+        HashMap<Integer, Integer> normal = new HashMap<>();
         
-        for(Map.Entry<Integer, Integer> entryPair : map.entrySet()) {
-            reversed.put(entryPair.getValue(), entryPair.getKey());
+        normal.put(0b0000, 0b1110);
+        normal.put(0b0001, 0b0100);
+        normal.put(0b0010, 0b1101);
+        normal.put(0b0100, 0b0010);
+        normal.put(0b0101, 0b1111);
+        normal.put(0b0110, 0b1011);
+        normal.put(0b0111, 0b1000);
+        normal.put(0b1000, 0b0011);
+        normal.put(0b1001, 0b1010);
+        normal.put(0b1010, 0b0110);
+        normal.put(0b1011, 0b1100);
+        normal.put(0b1100, 0b0101);
+        normal.put(0b1101, 0b1001);
+        normal.put(0b1110, 0b0000);
+        normal.put(0b1111, 0b0111);
+        if (!isInverse) {
+            return normal;
         }
-        
-        return reversed;
+        else {
+            HashMap<Integer, Integer> reversed = new HashMap<>();
+            for(Map.Entry<Integer, Integer> entryPair : normal.entrySet()) {
+                reversed.put(entryPair.getValue(), entryPair.getKey());
+            }
+            return reversed;
+        }
     }
     
     public static void outputMap(HashMap<Integer, Integer> map) {
@@ -110,19 +133,38 @@ public class ProjectTest {
         return encrypted;
     }
     
-    public static void/*int[][]*/ convertTo2x2(String toConvert) {
-        String[][] converted = new String[2][2];
+    public static int[][] convertTo2x2(String toConvert) {
+        int[][] converted = new int[2][2];
+        
+        converted[0][0] = Integer.parseInt(toConvert.substring(0,4));
+        converted[0][1] = Integer.parseInt(toConvert.substring(4,8));
+        converted[1][0] = Integer.parseInt(toConvert.substring(8,12));
+        converted[1][1] = Integer.parseInt(toConvert.substring(12,16));
         /*
-        converted[0][0] = Integer.parseInt(toConvert.substring(0,3));
-        converted[0][1] = Integer.parseInt(toConvert.substring(3,7));
-        converted[1][0] = Integer.parseInt(toConvert.substring(7,11));
-        converted[1][1] = Integer.parseInt(toConvert.substring(11,15));
-        */
         converted[0][0] = toConvert.substring(0,4);
         converted[0][1] = toConvert.substring(4,8);
         converted[1][0] = toConvert.substring(8,12);
         converted[1][1] = toConvert.substring(12,16);
-        showArray(converted);
+        */
+        return converted;
+    }
+    
+    public static char convertToChar(int[][] toConvert) {
+        String[][] toFill = new String[2][2];
+        for (int i = 0; i < toConvert.length; i++) {
+            for (int j = 0; j < toConvert[0].length; j++) {
+                toFill[i][j] = Integer.toString(toConvert[i][j]);
+                while (toFill[i][j].length() <= 3) {
+                    toFill[i][j] = "0" + toFill[i][j];
+                }
+            }
+        }
+        showArray(toFill);
+        String strChar = toFill[0][0] + toFill[0][1] + toFill[1][0] + toFill[1][1];
+        int convInt = Integer.parseInt(strChar, 2);
+        char character = (char)convInt;
+        System.out.println(character);
+        return character;
     }
     
     public static void/*int[][]*/ encryptWord(/*int[][] key*/) {
@@ -143,11 +185,11 @@ public class ProjectTest {
         }
         
         for (int i = 0; i < unicodeArray.length; i++) {
-            System.out.println(unicodeArray[i]);
-            convertTo2x2(unicodeArray[i]);
+            //convertTo2x2(unicodeArray[i]);
+            encryptedWord += convertToChar(convertTo2x2(unicodeArray[i]));
         }
         
-        
+        System.out.println(encryptedWord);
         //encryptedWord += encrypt(unicodeArray[i], key);
         
     }
