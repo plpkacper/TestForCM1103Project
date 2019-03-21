@@ -99,6 +99,7 @@ public class ProjectTest {
         normal.put(0b1101, 0b1001);
         normal.put(0b1110, 0b0000);
         normal.put(0b1111, 0b0111);
+        
         if (!isInverse) {
             return normal;
         }
@@ -146,6 +147,7 @@ public class ProjectTest {
         converted[1][0] = toConvert.substring(8,12);
         converted[1][1] = toConvert.substring(12,16);
         */
+        showArray(converted);
         return converted;
     }
     
@@ -167,7 +169,7 @@ public class ProjectTest {
         return character;
     }
     
-    public static void/*int[][]*/ encryptWord(/*int[][] key*/) {
+    public static void /*int[][]*/ encryptWord(/*int[][] key*/) {
         String encryptedWord = "";
         
         Scanner in = new Scanner (System.in);
